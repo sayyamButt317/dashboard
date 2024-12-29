@@ -4,14 +4,26 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRef } from "react";
 import { Link } from "react-router";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "@/api/auth";
+
 const LoginPage = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const mutation = useMutation({
+    mutationFn: login,
+    onSuccess: () => {
+      console.log("Logged in successfully");
+    },
+  });
 
   const handleLoginSubmit = () => {
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
     console.log(`Logging in with email: ${email}, password: ${password}`);
+    if (!email || !password) return;
+    mutation.mutate({ email, password });
   };
   return (
     <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
