@@ -6,6 +6,7 @@ import AnalyticPage from "@/pages/Analytics";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Authlayout from "./layouts/Authlayout";
 
+
 const router = createBrowserRouter([
   {
     path: "/dashboard",
