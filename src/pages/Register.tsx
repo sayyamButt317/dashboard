@@ -111,7 +111,7 @@ const RegisterPage = () => {
               <Button
                 onClick={handleRegister}
                 variant="outline"
-                className="w-full"
+                className="w-full bg-black text-slate-50"
                 
               >
                 Create an Account

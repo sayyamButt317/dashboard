@@ -1,15 +1,23 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRef } from "react";
-import { Link,useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "@/api/auth";
+import { useToast } from "@/hooks/use-toast";
+import { LoaderCircle } from "lucide-react";
 
 const LoginPage = () => {
-
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -18,7 +26,18 @@ const LoginPage = () => {
     mutationFn: login,
     onSuccess: () => {
       console.log("Logged in successfully");
+      toast({
+        title: "Login Sucessfully.",
+        description: " Explore your dashboard.",
+      });
       navigate("/dashboard");
+    },
+    onError: (error) => {
+      console.error("Login failed:", error);
+      toast({
+        title: "Login failed. Please try again.",
+        description: "There was a problem with your request.",
+      });
     },
   });
 
@@ -26,22 +45,34 @@ const LoginPage = () => {
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
     console.log(`Logging in with email: ${email}, password: ${password}`);
-    if (!email || !password) return;
-    mutation.mutate({ email, password });
+    if (!email || !password) {
+      toast({
+        title: "Invalid input",
+        description: "Please enter both email and password.",
+        variant: "destructive",
+      });
+      return;
+    }
+    mutation.mutateAsync({ email, password });
   };
   return (
     <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
       <div className="w-full max-w-sm md:max-w-3xl">
         <Card className="mx-auto max-w-sm">
+          <CardHeader>
+            <CardTitle className="text-2xl">Login</CardTitle>
+            <CardDescription>
+              Enter your email below to login to your account. <br />
+              {mutation.isError && (
+                <span className="text-red-500 text-sm">
+                  {"Something went wrong"}
+                </span>
+              )}
+            </CardDescription>
+          </CardHeader>
           <CardContent>
-            <form className="p-4 md:p-2">
+          
               <div className="flex flex-col gap-6">
-                <div className="flex flex-col items-center text-center">
-                  <h1 className="text-2xl font-bold">Welcome back</h1>
-                  <p className="text-balance text-muted-foreground">
-                    Login to your Acme Inc account
-                  </p>
-                </div>
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -70,8 +101,16 @@ const LoginPage = () => {
                     required
                   />
                 </div>
-                <Button onClick={handleLoginSubmit} className="w-full">
-                  Login
+                <Button
+                  onClick={handleLoginSubmit}
+                  className="w-full"
+                  disabled={mutation.isPending}
+                >
+                  {mutation.isPending && (
+                    <LoaderCircle className="animate-spin" />
+                  )}
+
+                  <span className="ml-2">Login</span>
                 </Button>
                 <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                   <span className="relative z-10 bg-background px-2 text-muted-foreground">
@@ -117,7 +156,6 @@ const LoginPage = () => {
                   </Link>
                 </div>
               </div>
-            </form>
           </CardContent>
         </Card>
       </div>
