@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 const RegisterPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  
 
   const firstnameRef = useRef<HTMLInputElement>(null);
   const lastnameRef = useRef<HTMLInputElement>(null);
@@ -27,7 +28,6 @@ const RegisterPage = () => {
   const mutation = useMutation({
     mutationFn: register,
     onSuccess: () => {
-      console.log('Registration successful');
       toast({
         title: "Account Created Sucessfully.",
         description: "You can now log in.",

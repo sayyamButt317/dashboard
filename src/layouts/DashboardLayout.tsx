@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import useTokenStore from "@/store/tokenstore";
+// import { replace, useNavigate } from "react-router";
 import {
   Bell,
   CircleUser,
@@ -29,9 +31,21 @@ import {
   ShoppingCart,
   Users,
 } from "lucide-react";
-import { Link,NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Navigate, Outlet } from "react-router-dom";
 
 const DashboardLayout = () => {
+  const token = useTokenStore((state) => state.token);
+  if (
+    token === null ||
+    token === "" ||
+    token === undefined ||
+    token === "undefined" ||
+    token === "null" ||
+    token === "null " ||
+    token === "undefined "
+  ) {
+    return <Navigate to={"/auth/login"} replace />;
+  }
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -109,7 +123,6 @@ const DashboardLayout = () => {
               </NavLink>
             </nav>
           </div>
-          
         </div>
       </div>
       <div className="flex flex-col">
