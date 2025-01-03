@@ -18,7 +18,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import useTokenStore from "@/store/tokenstore";
-// import { replace, useNavigate } from "react-router";
 import {
   Bell,
   CircleUser,
@@ -34,7 +33,7 @@ import {
 import { Link, NavLink, Navigate, Outlet } from "react-router-dom";
 
 const DashboardLayout = () => {
-  const token = useTokenStore((state) => state.token);
+  const { token, setToken } = useTokenStore((state) => state);
   if (
     token === null ||
     token === "" ||
@@ -46,6 +45,10 @@ const DashboardLayout = () => {
   ) {
     return <Navigate to={"/auth/login"} replace />;
   }
+
+  const logout = () => {
+    setToken("");
+  };
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -230,7 +233,9 @@ const DashboardLayout = () => {
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Button variant={"link"}>Logout</Button>
+                <Button onClick={logout} variant="destructive" className="w-36">
+                  Logout
+                </Button>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
