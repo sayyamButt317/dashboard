@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/input"; 
 import { Label } from "@/components/ui/label";
 import { useRef } from "react";
 import { Link, useNavigate } from "react-router";
@@ -14,18 +14,21 @@ import { useMutation } from "@tanstack/react-query";
 import { login } from "@/api/auth";
 import { useToast } from "@/hooks/use-toast";
 import { LoaderCircle } from "lucide-react";
+import useTokenStore from "@/store/tokenstore";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const setToken = useTokenStore((state) => state.setToken);
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const mutation = useMutation({
     mutationFn: login,
-    onSuccess: () => {
-      console.log("Logged in successfully");
+    onSuccess: (response) => {
+      setToken(response.data.accessToken);
       toast({
         title: "Login Sucessfully.",
         description: " Explore your dashboard.",
