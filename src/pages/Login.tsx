@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { useRef } from "react";
 import { Link, useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
-import { login } from "@/api/auth";
+import { login } from "@/http/api";
 import { useToast } from "@/hooks/use-toast";
 import { LoaderCircle } from "lucide-react";
 import useTokenStore from "@/store/tokenstore";

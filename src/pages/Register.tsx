@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { useRef } from "react";
 import { useNavigate } from "react-router";
-import { register } from "@/api/auth";
+import { register } from "@/http/api";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 
@@ -119,6 +119,7 @@ const RegisterPage = () => {
               <Button variant="outline" className="w-full">
                 Sign up with Google
               </Button>
+              
             </div>
             <div className="mt-4 text-center text-sm">
               Already have an account?{" "}
