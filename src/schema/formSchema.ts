@@ -21,7 +21,7 @@ export const formSchema = z.object({
   stock: z.string().min(1, {
     message: "Please enter stock amount.",
   }),
-  gender: z.enum(["men", "women", "unisex"], {
+  gender: z.enum(["men", "women"], {
     required_error: "Please select a gender.",
   }),
   status: z.string().min(2, {
@@ -29,7 +29,7 @@ export const formSchema = z.object({
   }),
   productImage: z.instanceof(FileList).refine((file) => {
     return file.length == 1;
-  }, "Cover Image is required"),
+  }, " Image is required"),
 });
 
 export type FormSchema = z.infer<typeof formSchema>;

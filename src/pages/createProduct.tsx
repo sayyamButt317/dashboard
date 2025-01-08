@@ -10,13 +10,6 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Form,
   FormControl,
   FormField,
@@ -47,15 +40,15 @@ const Productform = () => {
       productDescription: "",
       discountPercent: "",
       discountType: "",
-      // size: "",
-      // gender: "",
+      size: null,
+      gender: null,
       category: "",
       stock: "",
       status: "",
+    
     },
   });
-
-  // const coverImageRef = form.register("productImage");
+  const productImageRef = form.register("productImage");
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -239,7 +232,7 @@ const Productform = () => {
                     <FormItem>
                       <FormLabel>Price</FormLabel>
                       <FormControl>
-                        <Input type="number" className="w-full" {...field} />
+                        <Input type="number" placeholder="$0.00" className="w-full" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -252,7 +245,7 @@ const Productform = () => {
                     <FormItem>
                       <FormLabel>Stock</FormLabel>
                       <FormControl>
-                        <Input type="number" className="w-full" {...field} />
+                        <Input type="number" placeholder="0" className="w-full" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -260,12 +253,12 @@ const Productform = () => {
                 />
                 <FormField
                   control={form.control}
-                  name="discount"
+                  name="discountPercent"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Discount</FormLabel>
                       <FormControl>
-                        <Input type="number" className="w-full" {...field} />
+                        <Input type="number" placeholder="10%" className="w-full" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -278,7 +271,7 @@ const Productform = () => {
                     <FormItem>
                       <FormLabel>Discount Type</FormLabel>
                       <FormControl>
-                        <Input type="text" className="w-full" {...field} />
+                        <Input type="text" placeholder="SALE!" className="w-full" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -310,8 +303,9 @@ const Productform = () => {
             </div>
 
             {/* Card 2: Image Upload */}
+              
             <div className="bg-white shadow-md rounded-lg p-6 mt-6">
-              <h2 className="text-xl font-semibold mb-4">Upload Image</h2>
+              <div className="text-xl font-semibold mb-4">Upload Image</div>
               <div className="border-2 border-dashed rounded-lg p-4 hover:border-primary/50 transition-color min-h-[300px] flex flex-col items-center justify-center gap-4 cursor-pointer">
                 <div className="grid grid-cols-2 gap-4 w-full">
                   <img
@@ -327,11 +321,17 @@ const Productform = () => {
                     Click to upload or drag and drop
                   </p>
                 </>
+                <FormControl>
+                  
                 <input
+                id="productImage"
                   type="file"
                   multiple
                   accept="image/*"
                   className="hidden"
+                  {...productImageRef}
+                />
+                </FormControl>
                 />
               </div>
             </div>
