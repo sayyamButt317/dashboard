@@ -12,7 +12,6 @@ export const formSchema = z.object({
   }),
   discountPercent: z.string().optional(),
   discountType: z.string().optional(),
-  
   category: z.string().min(1, {
     message: "Please select a category.",
   }),
@@ -32,3 +31,5 @@ export const formSchema = z.object({
     return file.length == 1;
   }, "Cover Image is required"),
 });
+
+export type FormSchema = z.infer<typeof formSchema>;
