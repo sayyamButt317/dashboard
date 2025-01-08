@@ -2,11 +2,11 @@
 import GoogleProvider from "next-auth/providers/google";
 
 
-const options = {
+const GoogleAuth = {
     providers: [
       GoogleProvider({
-        clientId: '776126691534-bnidrosldb7qeblmvi89l7loorfpgr54.apps.googleusercontent.com',
-        clientSecret: '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',
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env. GOOGLE_CLIENT_SECRET,
       })
     ],
     session: {
@@ -14,4 +14,4 @@ const options = {
     },
 };
 
-export default options;
+export default GoogleAuth;
