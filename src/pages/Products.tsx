@@ -38,13 +38,13 @@ import { Link } from "react-router-dom";
 import { Product } from "@/types/productInterface";
 
 const Products = () => {
-    const productQuery= useQuery({
-        queryKey: ['products'],
-        queryFn: getProducts,
-        staleTime: 10000,
-    });
+  const productQuery = useQuery({
+    queryKey: ['products'],
+    queryFn: getProducts,
+    staleTime: 10000,
+  });
 
-const data: Product[] = productQuery.data || []; 
+  const data: Product[] = productQuery.data || [];
 
   if (productQuery.isLoading) {
     return (
@@ -117,6 +117,8 @@ const data: Product[] = productQuery.data || [];
                   <TableHead>Status</TableHead>
                   <TableHead>Category</TableHead>
                   <TableHead>Price</TableHead>
+                  <TableHead>Size</TableHead>
+                  <TableHead>Gender</TableHead>
                   <TableHead className="hidden md:table-cell">
                     Instock
                   </TableHead>
@@ -129,7 +131,7 @@ const data: Product[] = productQuery.data || [];
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.map((product:Product) => (
+                {data.map((product: Product) => (
                   <TableRow key={product._id}>
                     <TableCell className="hidden sm:table-cell">
                       <img
@@ -144,17 +146,24 @@ const data: Product[] = productQuery.data || [];
                       {product.productName}
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline">{product.Status}</Badge>
+                      <Badge variant="outline">{product.status}</Badge>
                     </TableCell>
                     <TableCell className="font-medium">
-                      {product.Category}
+                      {product.category}
                     </TableCell>
                     <TableCell className="hidden md:table-cell">
-                      {product.Price}
+                      {product.price}
                     </TableCell>
                     <TableCell className="hidden md:table-cell">
-                      {product.amountInStock}
+                      <Badge variant="outline">{product.size}</Badge>
                     </TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      {product.gender}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      <Badge variant="outline">{product.stock}</Badge>
+                    </TableCell>
+
                     <TableCell>
                       {new Date(product.createdAt).toLocaleDateString()}
                     </TableCell>

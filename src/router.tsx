@@ -8,6 +8,7 @@ import Authlayout from "./layouts/Authlayout";
 import ProductsPage from "@/pages/Products";
 import OrderPage from "@/pages/Order";
 import CustomerPage from "@/pages/Customers";
+import CreateProductPage from "@/pages/createProduct";
 
 
 const router = createBrowserRouter([
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
         path: "analytic",
         element: <AnalyticPage />,
       },
+      {
+        path: 'products/create',
+        element: <CreateProductPage/>,
+      }
     ],
   },
 

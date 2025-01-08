@@ -2,11 +2,13 @@ export interface Product {
   _id: string;
   productName: string;
   productDescription: string;
-  Price: number;
+  price: number;
   discountedPrice: number;
-  Category: string;
-  amountInStock: number;
-  Status: string;
+  category: string;
+  stock: number;
+  status: string;
+  gender: string;
+  size:string;
   createdAt: string;
   updatedAt: string;
   __v: number;

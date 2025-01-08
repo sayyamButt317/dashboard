@@ -27,5 +27,6 @@ export const getProducts = async (): Promise<Product[]> => {
   return response.data.data;
 };
 
-
-
+export const createProduct = async (data: FormData) => {
+  return await api.post("api/create", data);
+};
