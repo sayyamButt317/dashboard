@@ -31,8 +31,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getProducts } from "@/http/api";
-import { useQuery } from "@tanstack/react-query";
+import {deleteProducts, editProducts, getProducts} from "@/http/api";
+import {useMutation, useQuery} from "@tanstack/react-query";
 import { CirclePlus, MoreHorizontal } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Product } from "@/types/productInterface";
@@ -43,6 +43,22 @@ const Products = () => {
     queryFn: getProducts,
     staleTime: 10000,
   });
+
+
+    const editmutation = useMutation({
+      mutationFn: editProducts,
+
+    })
+
+  const deletemutation = useMutation({
+    mutationFn: deleteProducts,
+  })
+
+
+
+
+
+
 
   const data: Product[] = productQuery.data || [];
 
@@ -181,8 +197,8 @@ const Products = () => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem>Edit</DropdownMenuItem>
-                          <DropdownMenuItem>Delete</DropdownMenuItem>
+                          <DropdownMenuItem onClick={editProducts}>Edit</DropdownMenuItem>
+                          <DropdownMenuItem onClick={deleteProducts}>Delete</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>

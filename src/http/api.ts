@@ -1,5 +1,4 @@
 import axios from "axios";
-import { LoginResponse } from "@/types/authInterface";
 import { Product } from "@/types/productInterface";
 import useTokenStore from "@/store/tokenstore";
 
@@ -38,9 +37,16 @@ export const getProducts = async (): Promise<Product[]> => {
   return response.data.data;
 };
 
+
 export const createProduct = async (data: FormData) => await api.post("api/create", data,{
   headers: {
     'Content-Type': 'multipart/form-data'
   }
 });
+export const editProducts = async() =>{
+  return await api.put("api/edit");
+}
 
+export const deleteProducts = async() =>{
+  return await api.delete("api/delete:id");
+}
