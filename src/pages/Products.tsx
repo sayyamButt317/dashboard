@@ -138,7 +138,7 @@ const Products = () => {
                         alt={product.productName}
                         className="aspect-square rounded-md object-cover"
                         height="64"
-                        src={product.productImage}
+                        // src={product.productImage}
                         width="64"
                       />
                     </TableCell>
