@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input"; 
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRef } from "react";
 import { Link, useNavigate } from "react-router";
@@ -56,7 +56,7 @@ const LoginPage = () => {
       });
       return;
     }
-    mutation.mutateAsync({ email, password });
+    mutation.mutate({ email, password });
   };
   return (
     <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">

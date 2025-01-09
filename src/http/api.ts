@@ -1,6 +1,7 @@
 import axios from "axios";
 import { LoginResponse } from "@/types/authInterface";
 import { Product } from "@/types/productInterface";
+import useTokenStore from "@/store/tokenstore";
 
 const api = axios.create({
   baseURL: "http://localhost:8000/",
@@ -9,8 +10,18 @@ const api = axios.create({
   },
 });
 
+
+//to add token on frnt end request
+api.interceptors.request.use((config) => {
+  const token =useTokenStore.getState().token;
+  if(token){
+    config.headers!.Authorization = `Bearer ${token}`;
+  }
+  return config;
+})
+
 export const login = async (data: { email: string; password: string }) => {
-  return await api.post<LoginResponse>("api/users/login", data);
+  return await api.post("api/users/login", data);
 };
 
 export const register = async (data: {
@@ -27,6 +38,9 @@ export const getProducts = async (): Promise<Product[]> => {
   return response.data.data;
 };
 
-export const createProduct = async (data: FormData) => {
-  return await api.post("api/create", data);
-};
+export const createProduct = async (data: FormData) => await api.post("api/create", data,{
+  headers: {
+    'Content-Type': 'multipart/form-data'
+  }
+});
+

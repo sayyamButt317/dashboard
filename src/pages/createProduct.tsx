@@ -45,7 +45,7 @@ const Productform = () => {
       category: "",
       stock: "",
       status: "",
-    
+
     },
   });
   const productImageRef = form.register("productImage");
@@ -54,6 +54,7 @@ const Productform = () => {
   const mutation = useMutation({
     mutationFn: createProduct,
     onSuccess: () => {
+      //to remove cache and get new data from db
       queryClient.invalidateQueries({ queryKey: ["products"] });
       console.log("Producted created successfully");
       toast({
@@ -76,20 +77,14 @@ const Productform = () => {
     formdata.append("productTitle", values.productName);
     formdata.append("price", values.price);
     formdata.append("description", values.productDescription);
-    if (values.discountPercent) {
-      formdata.append("discountPercent", values.discountPercent);
-    }
-    if (values.discountType) {
-      formdata.append("discountType", values.discountType);
-    }
+    // formdata.append("discountPercent", values.discountPercent);
+    // formdata.append("discountType", values.discountType);
     formdata.append("category", values.category);
     formdata.append("size", values.size.join(','));
     formdata.append("amountInStock", values.stock);
     formdata.append("gender", values.gender);
     formdata.append("status", values.status);
-    if (values.productImage && values.productImage[0]) {
-      formdata.append("coverImage", values.productImage[0]);
-    }
+    formdata.append("productImage", values.productImage[0]);
 
     mutation.mutate(formdata);
 
@@ -303,8 +298,8 @@ const Productform = () => {
             </div>
 
             {/* Card 2: Image Upload */}
-              
-            <div className="bg-white shadow-md rounded-lg p-6 mt-6">
+
+            {/* <div className="bg-white shadow-md rounded-lg p-6 mt-6">
               <div className="text-xl font-semibold mb-4">Upload Image</div>
               <div className="border-2 border-dashed rounded-lg p-4 hover:border-primary/50 transition-color min-h-[300px] flex flex-col items-center justify-center gap-4 cursor-pointer">
                 <div className="grid grid-cols-2 gap-4 w-full">
@@ -332,22 +327,35 @@ const Productform = () => {
                   {...productImageRef}
                 />
                 </FormControl>
-                />
+                
               </div>
-            </div>
+            </div> */}
+
+            <FormField
+              control={form.control}
+              name="productImage"
+              render={() => (
+                <FormItem>
+                  <FormLabel>Product Image</FormLabel>
+                  <FormControl>
+                    <Input type="file" accept="image/*" {...productImageRef} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <div className="flex items-center gap-4 mt-4">
-              <Link to="/dashboard/books">
+              <Link to="/dashboard/products">
                 <Button variant={"outline"}>
                   <span className="ml-2">
                     Cancel
                   </span>
                 </Button>
               </Link>
-              <Button type="submit" disabled={mutation.isPending}>
-                {mutation.isPending
-                  &&
-                  (
-                    <LoaderCircle className="animate-spin" />)}
+              <Button type="submit"
+                 disabled={mutation.isPending}
+                 >
+                   {mutation.isPending && <LoaderCircle className="animate-spin" />}
                 <span className="ml-2">Submit
                 </span>
               </Button>

@@ -14,11 +14,12 @@ import { useNavigate } from "react-router";
 import { register } from "@/http/api";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
+import { LoaderCircle } from "lucide-react";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  
+
 
   const firstnameRef = useRef<HTMLInputElement>(null);
   const lastnameRef = useRef<HTMLInputElement>(null);
@@ -37,9 +38,9 @@ const RegisterPage = () => {
     onError: (error) => {
       console.error('Registration failed:', error);
       toast({
-        title:"Registration failed. Please try again.",
+        title: "Registration failed. Please try again.",
         description: "There was a problem with your request.",
-          });
+      });
     }
   });
 
@@ -51,8 +52,15 @@ const RegisterPage = () => {
     console.log(
       `Registering user with first name: ${firstname}, last name: ${lastname}, email: ${email}, password: ${password}`
     );
-    if (!firstname || !lastname || !email || !password) return;
-    mutation.mutateAsync({ firstname, lastname, email, password });
+    if (!firstname || !lastname || !email || !password){
+      toast({
+        title: "Invalid input",
+        description: "Please enter All Fields.",
+        variant: "destructive",
+      })
+      return;
+    }
+    mutation.mutate({ firstname, lastname, email, password });
   };
   return (
     <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
@@ -111,15 +119,17 @@ const RegisterPage = () => {
               <Button
                 onClick={handleRegister}
                 variant="outline"
+
                 className="w-full bg-black text-slate-50"
-                
+                disabled={mutation.isPending}
               >
-                Create an Account
+                {mutation.isPending && <LoaderCircle className="animate-spin" />}
+                <span className="ml-2" >Create an Account</span>
               </Button>
               <Button variant="outline" className="w-full">
                 Sign up with Google
               </Button>
-              
+
             </div>
             <div className="mt-4 text-center text-sm">
               Already have an account?{" "}
