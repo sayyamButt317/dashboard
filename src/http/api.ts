@@ -32,8 +32,8 @@ export const register = async (data: {
   return await api.post("api/users/register", data);
 };
 
-export const getProducts = async (): Promise<Product[]> => {
-  const response =  await api.get<{ status: number; data: Product[] }>("api/products")
+export const getProducts = async (pageNumber:number): Promise<Product[]> => {
+  const response =  await api.get<{ status: number; data: Product[] }>(`api/products?_start=${pageNumber}&_limit=3`)
   return response.data.data;
 };
 
@@ -43,10 +43,10 @@ export const createProduct = async (data: FormData) => await api.post("api/creat
     'Content-Type': 'multipart/form-data'
   }
 });
-export const editProducts = async() =>{
-  return await api.put("api/edit");
+export const editProducts = async (id:string) =>{
+  return await api.put(`api/edit/${id}`);
 }
 
-export const deleteProducts = async() =>{
-  return await api.delete("api/delete:id");
+export const deleteProducts = async (id:string) =>{
+  return await api.delete(`api/delete/${id}`);
 }
