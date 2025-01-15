@@ -25,24 +25,13 @@ export const login = async (data: { email: string; password: string }) => await 
 export const register = async (data: {firstname: string;lastname: string;email: string; password: string;
 }) =>  await api.post("api/users/register", data);
 
-
-<<<<<<< HEAD
-export const getProducts = async (pageNumber:number): Promise<Product[]> => {
-  const response =  await api.get<{ status: number; data: Product[] }>(`api/products?_start=${pageNumber}&_limit=3`)
-=======
 export const getProducts = async (): Promise<Product[]> => {
-<<<<<<< HEAD
-  const response =  await api.get<{ data: Product[] }>("api/products")
->>>>>>> 7a1b244 (update the fetch data function)
-  return response.data.data;
-=======
   const response = await api.get<{ products: Product[] }>("api/products");
   return response.data.products;
->>>>>>> a00d7c5 (optimize fetching data)
 };
 
 export const getProductById = async (id: string) => {
-  const response = await api.get<Product>(`api/products/${id}`);
+  const response = await api.get<Product>(`api/products/search${id}`);
   return response.data;
 };
 
@@ -51,20 +40,7 @@ export const createProduct = async (data: FormData) => await api.post("api/creat
     'Content-Type': 'multipart/form-data'
   }
 });
-<<<<<<< HEAD
-export const editProducts = async (id:string) =>{
-  return await api.put(`api/edit/${id}`);
-}
 
-export const deleteProducts = async (id:string) =>{
-  return await api.delete(`api/delete/${id}`);
-}
-=======
-export const editProducts = async() => await api.put("api/edit");
-
-
+export const editProducts = async() => await api.patch("api/edit");
 export const deleteProducts = async(id:string) => await api.delete(`api/delete/${id}`);
-
-
 export const fetchUsers = async(id:string) => await api.get(`api/products/${id}`)
->>>>>>> a00d7c5 (optimize fetching data)

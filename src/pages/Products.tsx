@@ -31,86 +31,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-<<<<<<< HEAD
-import {deleteProducts, editProducts, getProducts} from "@/http/api";
-import {useMutation, useQuery,useQueryClient} from "@tanstack/react-query";
 import { CirclePlus, MoreHorizontal } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Product } from "@/types/productInterface";
 import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationLink, PaginationEllipsis, PaginationNext } from "@/components/ui/pagination";
 
-
-
-
-const Products = () => {
-  const queryClient = useQueryClient();
-
-  const productQuery = useQuery({
-    queryKey: ['products'],
-    queryFn: getProducts,
-    staleTime: 10000,
-  });
-
-
-<<<<<<< HEAD
-  const editMutation = useMutation({
-    mutationFn: (id:string) => editProducts(id),
-    onSuccess: (apiData, updatedProduct) => {
-      queryClient.setQueryData(['products'], (oldData: Product[] ) => {
-        return oldData?.map((product) =>
-            product._id === updatedProduct ? { ...product, ...apiData } : product
-        );
-      });
-      // Refetch to ensure data is in sync
-      queryClient.invalidateQueries(['products']);
-    },
-    onError: (error) => {
-      console.error('Edit failed:', error);
-      // Optionally, show an error message to the user
-    }
-  });
-
-
-  const deleteMutation = useMutation({
-    mutationFn: (id:string) => deleteProducts(id),
-    onSuccess: (_data, id) => {
-      //  update the cache
-      queryClient.setQueryData(['products'], (oldData:Product[]) => {
-        return oldData?.filter((product: Product) => product._id !== id)
-      })
-      // Refetch to ensure data is in sync
-      queryClient.invalidateQueries(['products'])
-    },
-    onError: (error) => {
-      // Handle any errors
-      console.error('Delete failed:', error)
-      // Optionally, show an error message to the user
-    }
-  })
-
-
-
-
-
-
-=======
->>>>>>> 7a1b244 (update the fetch data function)
-  const data: Product[] = productQuery.data || [];
-
-  if (productQuery.isLoading) {
-=======
-import { deleteProducts, editProducts } from "@/http/api";
-import { CirclePlus, MoreHorizontal } from "lucide-react";
-import { Link } from "react-router-dom";
 import useProducts from "@/hooks/fetchdatahook";
-import SearchProduct from "@/hooks/searchdatahook";
 
 const Products = () => {
   const { data: products, isLoading, error, } = useProducts();
 
 
+
+
+
   if (isLoading) {
->>>>>>> a00d7c5 (optimize fetching data)
     return (
       <Card>
         <CardContent className="p-6">
@@ -256,37 +190,33 @@ const Products = () => {
           )}
         </CardContent>
         <CardFooter>
-<<<<<<< HEAD
           <Pagination>
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious href="#" />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#">1</PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#" isActive>
-            2
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#">3</PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationEllipsis />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationNext href="#" />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
-=======
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#" isActive>
+                  2
+                </PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">3</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
           <div className="text-xs text-muted-foreground">
             Showing <strong>1-{(products ?? []).length}</strong> of{" "}
-            <strong>{(products ?? []).length}</strong> products
           </div>
->>>>>>> a00d7c5 (optimize fetching data)
         </CardFooter>
       </Card>
     </div>
