@@ -3,14 +3,12 @@ export interface Product {
   productName: string;
   productDescription: string;
   price: number;
-  discountType: number;
+  discountType: string;
   discountPercent: number;
   category: string;
   stock: number;
   status: string;
   gender: string;
   size:string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
+  createdAt:string
 }

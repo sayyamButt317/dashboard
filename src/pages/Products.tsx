@@ -31,6 +31,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+<<<<<<< HEAD
 import {deleteProducts, editProducts, getProducts} from "@/http/api";
 import {useMutation, useQuery,useQueryClient} from "@tanstack/react-query";
 import { CirclePlus, MoreHorizontal } from "lucide-react";
@@ -97,6 +98,19 @@ const Products = () => {
   const data: Product[] = productQuery.data || [];
 
   if (productQuery.isLoading) {
+=======
+import { deleteProducts, editProducts } from "@/http/api";
+import { CirclePlus, MoreHorizontal } from "lucide-react";
+import { Link } from "react-router-dom";
+import useProducts from "@/hooks/fetchdatahook";
+import SearchProduct from "@/hooks/searchdatahook";
+
+const Products = () => {
+  const { data: products, isLoading, error, } = useProducts();
+
+
+  if (isLoading) {
+>>>>>>> a00d7c5 (optimize fetching data)
     return (
       <Card>
         <CardContent className="p-6">
@@ -108,7 +122,7 @@ const Products = () => {
     );
   }
 
-  if (productQuery.isError) {
+  if (error) {
     return (
       <Card>
         <CardContent className="p-6">
@@ -122,7 +136,6 @@ const Products = () => {
       </Card>
     );
   }
-
 
   return (
     <div>
@@ -154,7 +167,7 @@ const Products = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {data.length === 0 ? (
+          {(products ?? []).length === 0 ? (
             <div className="text-center py-4">No products found.</div>
           ) : (
             <Table>
@@ -181,7 +194,7 @@ const Products = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.map((product: Product) => (
+                {products?.map((product) => (
                   <TableRow key={product._id}>
                     <TableCell className="hidden sm:table-cell">
                       <img
@@ -243,6 +256,7 @@ const Products = () => {
           )}
         </CardContent>
         <CardFooter>
+<<<<<<< HEAD
           <Pagination>
       <PaginationContent>
         <PaginationItem>
@@ -267,6 +281,12 @@ const Products = () => {
         </PaginationItem>
       </PaginationContent>
     </Pagination>
+=======
+          <div className="text-xs text-muted-foreground">
+            Showing <strong>1-{(products ?? []).length}</strong> of{" "}
+            <strong>{(products ?? []).length}</strong> products
+          </div>
+>>>>>>> a00d7c5 (optimize fetching data)
         </CardFooter>
       </Card>
     </div>
