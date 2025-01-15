@@ -51,6 +51,7 @@ const Products = () => {
   });
 
 
+<<<<<<< HEAD
   const editMutation = useMutation({
     mutationFn: (id:string) => editProducts(id),
     onSuccess: (apiData, updatedProduct) => {
@@ -91,6 +92,8 @@ const Products = () => {
 
 
 
+=======
+>>>>>>> 7a1b244 (update the fetch data function)
   const data: Product[] = productQuery.data || [];
 
   if (productQuery.isLoading) {

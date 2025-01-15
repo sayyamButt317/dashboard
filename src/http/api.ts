@@ -32,8 +32,13 @@ export const register = async (data: {
   return await api.post("api/users/register", data);
 };
 
+<<<<<<< HEAD
 export const getProducts = async (pageNumber:number): Promise<Product[]> => {
   const response =  await api.get<{ status: number; data: Product[] }>(`api/products?_start=${pageNumber}&_limit=3`)
+=======
+export const getProducts = async (): Promise<Product[]> => {
+  const response =  await api.get<{ data: Product[] }>("api/products")
+>>>>>>> 7a1b244 (update the fetch data function)
   return response.data.data;
 };
 
