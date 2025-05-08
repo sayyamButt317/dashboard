@@ -1,5 +1,3 @@
-"use client"
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import useProducts from "@/hooks/fetchdata.hook"
@@ -92,9 +90,9 @@ const LandingPage = () => {
                 Buy Now
               </Link>
             </CardFooter>
-            <Button variant="ghost" className="w-full">
+            {/* <Button variant="ghost" className="w-full" >
               <Link to={`/productdetail/${product._id}`}>Details</Link>
-            </Button>
+            </Button> */}
           </Card>
         ))}
     </div>

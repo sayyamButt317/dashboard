@@ -23,22 +23,25 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "@/components/ui/table";
 import { CirclePlus, MoreHorizontal } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationLink, PaginationEllipsis, PaginationNext } from "@/components/ui/pagination";
 
 import useProducts from "@/hooks/fetchdata.hook";
+import DeleteProduct from "@/hooks/deleteProduct.hook";
+import EditProduct from "@/hooks/editProduct.hook";
 
 const Products = () => {
   const { data: products, isLoading, error, } = useProducts();
+  const deleteProduct = DeleteProduct();
+  const editProduct = EditProduct();
+
+  const navigate = useNavigate();
+
+  const handleEdit = (productId) => {
+    navigate(`/dashboard/product/${productId}/edit`);
+  };
 
   if (isLoading) {
     return (
@@ -81,7 +84,7 @@ const Products = () => {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <Link to={"/dashboard/products/create"}>
+        <Link to={"/dashboard/product/create"}>
           <Button>
             <CirclePlus size={20} />
             <span className="ml-2">Add Products</span>
@@ -102,13 +105,10 @@ const Products = () => {
           ) : (
             <Table>
               <TableHeader>
-                
                 <TableRow>
-
                   <TableHead className="hidden w-[100px] sm:table-cell">
                     <span className="sr-only">Image</span>
                   </TableHead>
-                  
                   <TableHead>Images</TableHead>
                   <TableHead>Product Name</TableHead>
                   <TableHead>Status</TableHead>
@@ -128,7 +128,7 @@ const Products = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {products?.map((product,index) => (
+                {products?.map((product, index) => (
                   <TableRow key={product._id}>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell className="hidden sm:table-cell">
@@ -143,21 +143,21 @@ const Products = () => {
                     <TableCell className="font-medium">
                       {product.productName}
                     </TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       <Badge variant="outline">{product.status}</Badge>
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell className="font-medium">
                       {product.category}
                     </TableCell>
                     <TableCell className="hidden md:table-cell">
                       {product.price}
                     </TableCell>
-                    <TableCell className="hidden md:table-cell">
+                    {/* <TableCell className="hidden md:table-cell">
                       <Badge variant="outline">{product.size}</Badge>
                     </TableCell>
                     <TableCell className="hidden md:table-cell">
                       {product.gender}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell className="hidden md:table-cell">
                       <Badge variant="outline">{product.stock}</Badge>
                     </TableCell>
@@ -171,16 +171,15 @@ const Products = () => {
                           <Button
                             aria-haspopup="true"
                             size="icon"
-                            variant="ghost"
-                          >
+                            variant="ghost">
                             <MoreHorizontal className="h-4 w-4" />
                             <span className="sr-only">Toggle menu</span>
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem onClick={() => editMutation.mutate(id)}>Edit</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => deleteMutation.mutate(id)}>Delete</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleEdit(product._id)}>Edit</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => deleteProduct.mutate(product._id)}>Delete</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -190,7 +189,7 @@ const Products = () => {
             </Table>
           )}
           <div className="text-xs text-muted-foreground">
-            Showing of {''}<strong>1-{(products ?? []).length}</strong> 
+            Showing of {''}<strong>1-{(products ?? []).length}</strong>
           </div>
         </CardContent>
         <CardFooter>
@@ -203,9 +202,7 @@ const Products = () => {
                 <PaginationLink href="#">1</PaginationLink>
               </PaginationItem>
               <PaginationItem>
-                <PaginationLink href="#" isActive>
-                  2
-                </PaginationLink>
+                <PaginationLink href="#" isActive>2</PaginationLink>
               </PaginationItem>
               <PaginationItem>
                 <PaginationLink href="#">3</PaginationLink>
@@ -218,7 +215,7 @@ const Products = () => {
               </PaginationItem>
             </PaginationContent>
           </Pagination>
-          
+
         </CardFooter>
       </Card>
     </div>
