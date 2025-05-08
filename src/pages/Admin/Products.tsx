@@ -35,14 +35,10 @@ import { CirclePlus, MoreHorizontal } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationLink, PaginationEllipsis, PaginationNext } from "@/components/ui/pagination";
 
-import useProducts from "@/hooks/fetchdatahook";
+import useProducts from "@/hooks/fetchdata.hook";
 
 const Products = () => {
   const { data: products, isLoading, error, } = useProducts();
-
-
-
-
 
   if (isLoading) {
     return (
@@ -106,11 +102,15 @@ const Products = () => {
           ) : (
             <Table>
               <TableHeader>
+                
                 <TableRow>
+
                   <TableHead className="hidden w-[100px] sm:table-cell">
                     <span className="sr-only">Image</span>
                   </TableHead>
-                  <TableHead>Name</TableHead>
+                  
+                  <TableHead>Images</TableHead>
+                  <TableHead>Product Name</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Category</TableHead>
                   <TableHead>Price</TableHead>
@@ -128,14 +128,15 @@ const Products = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {products?.map((product) => (
+                {products?.map((product,index) => (
                   <TableRow key={product._id}>
+                    <TableCell>{index + 1}</TableCell>
                     <TableCell className="hidden sm:table-cell">
                       <img
                         alt={product.productName}
                         className="aspect-square rounded-md object-cover"
                         height="64"
-                        // src={product.productImage}
+                        src={product.picture.secure_url}
                         width="64"
                       />
                     </TableCell>
@@ -188,6 +189,9 @@ const Products = () => {
               </TableBody>
             </Table>
           )}
+          <div className="text-xs text-muted-foreground">
+            Showing of {''}<strong>1-{(products ?? []).length}</strong> 
+          </div>
         </CardContent>
         <CardFooter>
           <Pagination>
@@ -214,9 +218,7 @@ const Products = () => {
               </PaginationItem>
             </PaginationContent>
           </Pagination>
-          <div className="text-xs text-muted-foreground">
-            Showing <strong>1-{(products ?? []).length}</strong> of{" "}
-          </div>
+          
         </CardFooter>
       </Card>
     </div>

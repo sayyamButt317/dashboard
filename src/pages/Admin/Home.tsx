@@ -32,7 +32,7 @@ import {
 
 
 
-const AnalyticPage = () => {
+const HomePage = () => {
   return (
     <>
       <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
@@ -322,4 +322,4 @@ const AnalyticPage = () => {
   );
 };
 
-export default AnalyticPage;
+export default HomePage;

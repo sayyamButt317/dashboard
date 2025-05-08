@@ -30,16 +30,17 @@ export const getProducts = async (): Promise<Product[]> => {
   return response.data.products;
 };
 
-export const getProductById = async (id: string) => {
-  const response = await api.get<Product>(`api/products/search${id}`);
-  return response.data;
+export const getProductById = async (id: string): Promise<Product> =>{
+  const response = await api.get<{product:Product}>(`api/products/${id}`);
+  return response.data.product;
 };
 
-export const createProduct = async (data: FormData) => await api.post("api/create", data,{
-  headers: {
-    'Content-Type': 'multipart/form-data'
-  }
-});
+
+export const createProduct = async (data: FormData) => await api.post("/api/products/create", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
 
 export const editProducts = async() => await api.patch("api/edit");
 export const deleteProducts = async(id:string) => await api.delete(`api/delete/${id}`);

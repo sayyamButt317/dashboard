@@ -3,12 +3,13 @@ export interface Product {
   productName: string;
   productDescription: string;
   price: number;
-  discountType: string;
-  discountPercent: number;
   category: string;
   stock: number;
-  status: string;
-  gender: string;
-  size:string;
+   // discountType: string;
+  // discountPercent: number;
+  // status: string;
+  // gender: string;
+  // size:string;
+  picture:string;
   createdAt:string
 }

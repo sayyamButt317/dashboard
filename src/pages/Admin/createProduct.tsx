@@ -36,32 +36,34 @@ const Productform = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       productName: "",
-      price: "",
       productDescription: "",
-      discountPercent: "",
-      discountType: "",
-      size: null,
-      gender: null,
-      category: "",
+      price: "",
       stock: "",
-      status: "",
+      category: "",
+      // discountPercent: "",
+      // discountType: "",
+      // size: null,
+      // gender: null,
+      // status: "",
+
 
     },
   });
-  const productImageRef = form.register("productImage");
+  const productImageRef = form.register("picture");
 
   const queryClient = useQueryClient();
+
   const mutation = useMutation({
     mutationFn: createProduct,
     onSuccess: () => {
       //to remove cache and get new data from db
       queryClient.invalidateQueries({ queryKey: ["products"] });
       console.log("Producted created successfully");
+      navigate("/dashboard/products");
       toast({
         title: "Product Created Sucessfully.",
         description: `Product has been added to the list.`,
       });
-      navigate("/dashboard/products");
     },
     onError: (error) => {
       console.error("Product failed to added:", error);
@@ -74,20 +76,17 @@ const Productform = () => {
 
   function onSubmit(values: FormSchema) {
     const formdata = new FormData();
-    formdata.append("productTitle", values.productName);
+    formdata.append("productName", values.productName);
+    formdata.append("productDescription", values.productDescription);
     formdata.append("price", values.price);
-    formdata.append("description", values.productDescription);
+    formdata.append("stock", values.stock);
+    formdata.append("category", values.category);
     // formdata.append("discountPercent", values.discountPercent);
     // formdata.append("discountType", values.discountType);
-    formdata.append("category", values.category);
-    formdata.append("size", values.size.join(','));
-    formdata.append("amountInStock", values.stock);
-    formdata.append("gender", values.gender);
-    formdata.append("status", values.status);
-    formdata.append("productImage", values.productImage[0]);
-
+    // formdata.append("gender", values.gender);
+    // formdata.append("status", values.status);
+    formdata.append("picture", values.picture[0])
     mutation.mutate(formdata);
-
     console.log(values);
   }
 
@@ -149,7 +148,7 @@ const Productform = () => {
                   )}
                 />
                 <div className="grid grid-cols-2 gap-4">
-                  <FormField
+                  {/* <FormField
                     control={form.control}
                     name="size"
                     render={({ field }) => (
@@ -211,7 +210,7 @@ const Productform = () => {
                       </FormItem>
                     )
                     }
-                  />
+                  /> */}
                 </div>
               </div>
             </div>
@@ -246,7 +245,7 @@ const Productform = () => {
                     </FormItem>
                   )}
                 />
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="discountPercent"
                   render={({ field }) => (
@@ -271,7 +270,7 @@ const Productform = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
               </div>
             </div>
           </div>
@@ -297,9 +296,9 @@ const Productform = () => {
 
             </div>
 
-            {/* Card 2: Image Upload */}
 
-            {/* <div className="bg-white shadow-md rounded-lg p-6 mt-6">
+            {/* 
+             <div className="bg-white shadow-md rounded-lg p-6 mt-6">
               <div className="text-xl font-semibold mb-4">Upload Image</div>
               <div className="border-2 border-dashed rounded-lg p-4 hover:border-primary/50 transition-color min-h-[300px] flex flex-col items-center justify-center gap-4 cursor-pointer">
                 <div className="grid grid-cols-2 gap-4 w-full">
@@ -329,11 +328,11 @@ const Productform = () => {
                 </FormControl>
                 
               </div>
-            </div> */}
+            </div>  */}
 
             <FormField
               control={form.control}
-              name="productImage"
+              name="picture"
               render={() => (
                 <FormItem>
                   <FormLabel>Product Image</FormLabel>
@@ -353,9 +352,9 @@ const Productform = () => {
                 </Button>
               </Link>
               <Button type="submit"
-                 disabled={mutation.isPending}
-                 >
-                   {mutation.isPending && <LoaderCircle className="animate-spin" />}
+                disabled={mutation.isPending}
+              >
+                {mutation.isPending && <LoaderCircle className="animate-spin" />}
                 <span className="ml-2">Submit
                 </span>
               </Button>
