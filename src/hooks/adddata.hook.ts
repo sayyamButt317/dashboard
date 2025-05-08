@@ -3,18 +3,18 @@ import { toast } from "./use-toast";
 import { useNavigate } from "react-router";
 import { createProduct } from "@/http/api";
 
-export function AddProductMutation() {
+const AddProduct = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   // Mutation hook to create a new product
-  useMutation({
+  return useMutation({
     mutationFn: createProduct,
     onSuccess: () => {
       //to remove cache and get new data from db
       queryClient.invalidateQueries({ queryKey: ["products"] });
       console.log("Producted created successfully");
-      navigate("/dashboard/products");
+      navigate("/dashboard/product");
       toast({
         title: "Product Created Sucessfully.",
         description: `Product has been added to the list.`,
@@ -29,4 +29,5 @@ export function AddProductMutation() {
     },
   });
 }
-export default AddProductMutation;
+export default AddProduct;
+

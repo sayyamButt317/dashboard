@@ -28,9 +28,10 @@ import { FormSchema, formSchema } from "@/schema/formSchema";
 import { toast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import AddProduct from "@/hooks/adddata.hook";
 
-const Productform = () => {
-  const navigate = useNavigate();
+const Productform = ({initialValues}) => {
+  
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,28 +52,7 @@ const Productform = () => {
   });
   const productImageRef = form.register("picture");
 
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: createProduct,
-    onSuccess: () => {
-      //to remove cache and get new data from db
-      queryClient.invalidateQueries({ queryKey: ["products"] });
-      console.log("Producted created successfully");
-      navigate("/dashboard/products");
-      toast({
-        title: "Product Created Sucessfully.",
-        description: `Product has been added to the list.`,
-      });
-    },
-    onError: (error) => {
-      console.error("Product failed to added:", error);
-      toast({
-        title: "Product failed to added. Please try again.",
-        description: "There was a problem with your request.",
-      });
-    },
-  });
+  const mutation = AddProduct();
 
   function onSubmit(values: FormSchema) {
     const formdata = new FormData();
